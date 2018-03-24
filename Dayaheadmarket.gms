@@ -11,31 +11,42 @@ set z        zones of the market     /Northeast
                                       Sicily
                                       Sardinia             /
 
-    k        subjects in the market  /n1, n2, c1, c2, c3   /
+    i        subjects in the market  /n1, n2, n3, n4, n5, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10   / ;
 
+alias(z,k)
 
-set    c(z,k) subject sorted by respective zone of injection or drawning
-                                        /Northeast . n1
-                                         Northwest . n2
-                                         Northeast . c1
-                                         Northeast . c2
-                                         Northwest . c3       /     ;
+set    s(z,i) subject sorted by respective zone of injection or drawning   ;
 
-parameter nbid "different couple of (q,p) in the bid - max 4"     /1*4/     ;
+$call "GDXXRW.EXE i=Egmarketinput.xlsx o=data_egmkt.gdx set=s rng=MKTpartecipants!A2:A17 rdim=0 values=yn"
+$GDXIN data_egmkt.gdx
+$LOAD s
+$GDXIN
 
-parameters    pBID (c,nbid)
-              qBID (c,nbid)
+parameter nbid "different couple of (q,p) in the bid - max 4"     /1*4/    ;
 
-table c(z,z)        / Northeast Northwest Center South Sicily Sardinia
-         Northeast        INF     2000      1000    0      0       0
-         Northwest        2000    INF       2000    0      0       0
-         Center           1000    2000      INF    1500    0      1500
-         South             0       0        1500   INF    2000     0
-         Sicily            0       0         0     2000   INF     500
-         Sardinia          0       0        1500    0     500     INF/ ;
+parameters    pBID (c,nbid)  bidded prices for every partecipant in the market
+              qBID (c,nbid)  bidded quantities for every partecipant in the market
+              c(z,k)         Network constraints between zones    ;
 
-variables p(z)  price in each zone and in every hour of day ahead
-          q(z)  quantity traded in each zone and in every hour of day ahead
-          qc(c) obligation in quantity for every consumer
-          qp(p) obligation in quantity for every producer
-          S     total surplus
+$call "GDXXRW.EXE i=Egmarketinput.xlsx o=data_egmkt1.gdx par=pBID rng=BIDprice!A2:E17 rdim=1 cdim=1 values=yn par=qBID rng=BIDquantity!A2:E17 rdim=1 cdim=1 values=yn par=c rng=distance!A2:G8 rdim=1 cdim=1 values=yn"
+$GDXIN data_egmkt.gdx
+$LOAD pBID, qBID, c
+$GDXIN
+
+variables
+          f(z,k)   flows between zones
+          p(z)  price in each zone
+          qdem(z)  quantity demanded in each zone
+          qsup(z)  quantity supplied in each zone
+          qc(s) obligation in quantity for every partecipant in the market
+          SUR     total surplus
+
+equations
+                DEMAND(z)
+                SUPPLY(z)
+                EQUILIBRIUM(z)
+                SURPLUS;
+
+DEMAND(z)..                p(z)    =g=   sum()
+SUPPLY(z)..                p(z)    =l=   sum()
+EQUILIBRIUM..              qdem(z) =e=   qsup(z)
