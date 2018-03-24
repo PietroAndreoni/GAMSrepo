@@ -3,12 +3,19 @@
 [RP:UNTITLED_1]
 1=
 
+[RP:DAYAHEADMARKET]
+1=
+
+[RP:TRNSPORT_EXCEL_INPUT]
+1=
+
 [MRUFILES]
 1=C:\Users\pietr\Documents\gamsdir\projdir\Untitled_1.gms
 
 [OPENWINDOW_1]
-FILE0=C:\Users\pietr\Documents\gamsdir\projdir\Dayaheadmarket.gms
+FILE0=C:\Users\pietr\Documents\Code for GAMS Tutorial\Exercises\ex02_trnsport+excel\trnsport_excel_input.gms
 FILE1=C:\Users\pietr\Documents\gamsdir\projdir\Dayaheadmarket.gms
+FILE2=C:\Users\pietr\Documents\gamsdir\projdir\Dayaheadmarket.gms
 MAXIM=1
 TOP=50
 LEFT=50

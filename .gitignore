@@ -101,3 +101,16 @@ Thumbs.db
 .csv
 
 .BACKUP
+*.~gm
+
+*.lst
+
+*.lxi
+
+*.csv
+
+*.BACKUP
+
+*.xlsx
+
+*.gdx
