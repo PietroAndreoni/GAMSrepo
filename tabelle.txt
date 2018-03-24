@@ -1,0 +1,46 @@
+   / Northeast Northwest Center South Sicily Sardinia
+         Northeast        INF     2000      1000    0      0       0
+         Northwest        2000    INF       2000    0      0       0
+         Center           1000    2000      INF    1500    0      1500
+         South             0       0        1500   INF    2000     0
+         Sicily            0       0         0     2000   INF     500
+         Sardinia          0       0        1500    0     500     INF/
+
+
+    /Northeast . n1
+                                         Northwest . n2
+                                         Northeast . c1
+                                         Northeast . c2
+                                         Northwest . c3       /  
+
+
+$OnText
+This model simulate day ahead market for electricity in a 4 zone market
+
+
+$OffText
+
+set z        zones of the market     /Northeast
+                                      Northwest
+                                      Center
+                                      South
+                                      Sicily
+                                      Sardinia             /
+
+    k        list of subjects in the market  /n1, n2, c1, c2, c3   /
+
+
+set    c(z,k) subject identified by respective zone of injection or drawning
+                                       ;
+
+parameter nbid "different couple of (q,p) in the bid - max 4"     /1*4/     ;
+
+
+
+table c(z,z)      ;
+
+variables p(z)  price in each zone and in every hour of day ahead
+          q(z)  quantity traded in each zone and in every hour of day ahead
+          qc(c) obligation in quantity for every consumer
+          qp(p) obligation in quantity for every producer
+          S     total surplus
